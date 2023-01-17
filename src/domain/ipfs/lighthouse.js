@@ -10,13 +10,13 @@ class LighthouseStorageService {
   }
 
   async upload(readableStreamForFile, { name, mimetype }) {
-    const response = await this.client.uploadBuffer(readableStreamForFile, this.token, mimetype);
-    if (!response.Hash) return null;
+    const { data } = await this.client.uploadBuffer(readableStreamForFile, this.token, mimetype);
+    if (!data.Hash) return null;
     return {
-      ipfsUrl: `https://gateway.lighthouse.storage/ipfs/${response.Hash}`,
-      ipfsHash: `${response.Hash}`,
+      ipfsUrl: `https://gateway.lighthouse.storage/ipfs/${data.Hash}`,
+      ipfsHash: `${data.Hash}`,
       ipfsStorage: 'lighthouse.storage',
-      pinSize: response.Size,
+      pinSize: data.Size,
       timestamp: (new Date()).getTime(),
     };
   }
